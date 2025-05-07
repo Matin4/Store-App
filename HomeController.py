@@ -63,22 +63,21 @@ class HomeController:
     def add_product(self):
         # Required fields
         name = self.view.pname_entry.get()
-        code = self.view.pcode_entry.get()
-
         if not self.validate.validate_string(name):
             messagebox.showwarning("Missing Name", "Name is not correct!")
             return
 
-        if not self.validate.validate_integer(code):
-            messagebox.showwarning("Missing Code", "Code is not correct!")
-            return
-
         # Optional fields with validation if present
+        code = self.view.pcode_entry.get()
+        if code and not self.validate.validate_integer(code):
+            messagebox.showwarning("Invalide Code", "Code is not correct!")
+            return
+        
         buy_price = self.view.buy_price_entry.get()
         if buy_price and not self.validate.validate_float(buy_price):
             messagebox.showwarning("Invalid Buy", "Buy price is not correct!")
             return
-
+        
         commercial_price = self.view.commercial_price_entry.get()
         if commercial_price and not self.validate.validate_float(commercial_price):
             messagebox.showwarning("Invalid Commercial price", "Commercial price is not correct!")

@@ -73,7 +73,7 @@ class HomeView(tk.Frame):
 
         self.pcode_entry = tk.Entry(self.tab3_second_column, width=30)
         self.pcode_entry.pack(expand=True, pady=5)
-        self.pcode_label = tk.Label(self.tab3_first_column, text="Last Name")
+        self.pcode_label = tk.Label(self.tab3_first_column, text="Product Code")
         self.pcode_label.pack(expand=True, pady=5)  
 
         self.buy_price_entry = tk.Entry(self.tab3_second_column, width=30)

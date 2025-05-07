@@ -49,7 +49,8 @@ class Validate():
         if text_to_validate:
             try:
                 if isinstance(text_to_validate, str):
-                    int(text_to_validate)
+                    if int(text_to_validate):
+                        return True
                 if isinstance(text_to_validate, int):
                     return True
             except:
