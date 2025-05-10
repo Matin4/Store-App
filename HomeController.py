@@ -20,6 +20,7 @@ class HomeController:
 
         if not name or not role:
             messagebox.showwarning("Missing Name", "Name and role are required to add a person.")
+            return
 
         if not self.validate.validate_string(name):
             messagebox.showwarning("Missing Name", "Name is not correct!")
@@ -63,7 +64,7 @@ class HomeController:
     def add_product(self):
         # Required fields
         name = self.view.pname_entry.get()
-        if not self.validate.validate_string(name):
+        if not self.validate.validate_string(name) or not name:
             messagebox.showwarning("Missing Name", "Name is not correct!")
             return
 

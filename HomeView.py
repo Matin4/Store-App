@@ -1,12 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
+from tkcalendar import DateEntry
 
 class HomeView(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.controller = None
-        self.main_window = ttk.Notebook(self)
-        self.main_window.pack()#(relx=0, rely=0, relheight=1.0, relwidth=1.0)
+        self.main_window = ttk.Notebook(self)#,width=parent.winfo_parent().winfo_width(), height=parent.winfo_parent().winfo_height())
+        self.main_window.pack(fill="both", expand=True)#(relx=0, rely=0, relheight=1.0, relwidth=1.0)
         self.columnconfigure((0,1), weight=1)
         self.rowconfigure((0,1,2), weight=1)
 
@@ -15,7 +16,6 @@ class HomeView(tk.Frame):
         self.main_window.add(self.tab1, text="Home")
         self.label1 = tk.Label(self.tab1, text="Welcome to the GUI App!")
         self.label1.pack(pady=10, padx=10)
-
         # Add Person Tab
         self.tab2 = ttk.Frame(self.main_window)
         self.main_window.add(self.tab2, text="Personnel")
@@ -35,7 +35,7 @@ class HomeView(tk.Frame):
 
         self.list_label_product = tk.Label(self.tab3, text="Products")
         self.list_label_product.pack(pady=5)
-        self.product_listbox = tk.Listbox(self.tab3, width=100,background="red")
+        self.product_listbox = tk.Listbox(self.tab3, width=100)
         self.product_listbox.pack(fill="both", pady=5, padx=10)
         self.add_product_button = tk.Button(self.tab3, text="Add")
         self.add_product_button.pack(side="left", pady=20)
@@ -52,6 +52,7 @@ class HomeView(tk.Frame):
         self.top_window_product.geometry("400x300")
         self.top_window_product.grab_set()
         self.top_window_product.protocol("WM_DELETE_WINDOW", self.close_top_window_product)
+        self.top_window_product.resizable(False, False)
         self.controller = controller
 
          # Frames
@@ -114,6 +115,7 @@ class HomeView(tk.Frame):
         self.top_window_person.geometry("400x300")
         self.top_window_person.grab_set()
         self.top_window_person.protocol("WM_DELETE_WINDOW", self.close_top_window_person)
+        self.top_window_person.resizable(False, False)
         self.controller = controller
 
         # Frames
@@ -140,7 +142,7 @@ class HomeView(tk.Frame):
         self.phone_entry.pack(expand=True, pady=5)
         tk.Label(self.tab2_first_column, text="Phone").pack(expand=True, pady=5)
 
-        self.birth_date_entry = tk.Entry(self.tab2_second_column, width=30)
+        self.birth_date_entry = DateEntry(self.tab2_second_column, width=20, state='readonly', background='darkblue', foreground='white', borderwidth=1, date_pattern='yyyy/mm/dd')
         self.birth_date_entry.pack(expand=True, pady=5)
         tk.Label(self.tab2_first_column, text="Birth Date").pack(expand=True, pady=5)
 

@@ -13,10 +13,7 @@ class Controller():
         self.model = model
         self.root_view = view
         self.container = tk.Frame(self.root_view.root)
-        # self.container.place(x=0, y=0, relheight=1.0, relwidth=1.0)
         self.container.pack()   
-        # self.container.columnconfigure((0,1), weight=1)
-        # self.container.rowconfigure((0,1,2,3), weight=1)
 
         self.view_frames = {}
         self.controllers = {}

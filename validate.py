@@ -20,7 +20,7 @@ class Validate():
             try:
                 return int(text_to_validate)
             except (ValueError, TypeError):
-                raise ValueError(f"Insert number.")
+                return False
         else:
             return False
         
@@ -30,7 +30,7 @@ class Validate():
         try:
             return float(text_to_validate)
         except (ValueError, TypeError):
-            raise ValueError(f"Invalid")
+            return False
 
     def validate_date(self, text_to_validate, date_format="%Y-%m-%d"):
         if text_to_validate:
@@ -54,4 +54,4 @@ class Validate():
                 if isinstance(text_to_validate, int):
                     return True
             except:
-                raise ValueError("Phone number should be string.")
+                return False
