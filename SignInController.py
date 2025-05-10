@@ -26,5 +26,5 @@ class SignInController():
         if self.view_frame.warning_label != None:
             self.view_frame.warning_label.destroy()
             self.view_frame.warning_label = None
+        self.view_frame.clear_entry_fields()
         self.app.show_view("signup")
-        # self.sign_up = SignUpController(self.model, self.view)

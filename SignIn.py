@@ -28,34 +28,30 @@ class SignInView(tk.Frame):
 
         self.warning_label = None
 
-    def on_enter(self, event):
-        self.no_account_text.tag_config("signup_link", underline=1)
-        self.no_account_text.config(cursor="hand2")
-
-    def on_leave(self, event):
-        self.no_account_text.tag_config("signup_link", underline=0)
-        self.no_account_text.config(cursor="")
-
     def push_widgets_down(self):
         for widget in self.winfo_children():
             info = widget.grid_info()
             widget.grid(row=info['row'] + 1, column=info['column'])
 
     def user_does_not_exist_error(self):
-        self.display_error("User does not exist!")
+        self.display_warning("User does not exist!")
 
     def sign_in_unsuccessful_error(self):
-        self.display_error("Incorrect information")
+        self.display_warning("Incorrect information")
 
     def on_sign_up_success(self):
-        self.display_error("Sign up successful!")
+        self.display_warning("Sign up successful!")
         self.password_entry.delete(0, tk.END)
         self.user_entry.delete(0, tk.END)
 
-    def display_error(self, warning_text):
+    def display_warning(self, warning_text):
         if self.warning_label == None:
             self.push_widgets_down()
             self.warning_label = tk.Label(self,text=warning_text)
             self.warning_label.grid(column=1, row=0, pady=10, padx=10)
         else:
             self.warning_label.config(text=warning_text)
+
+    def clear_entry_fields(self):
+        self.user_entry.delete(0, tk.END)
+        self.password_entry.delete(0, tk.END)

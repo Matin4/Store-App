@@ -7,6 +7,7 @@ class SignUpController():
 
     def bind(self):
         self.view_frame.sign_up_button.config(command=self.sign_up)
+        self.view_frame.back_to_sign_in_link.bind("<Button-1>", lambda e: self.on_back_to_sign_in())
 
     def sign_up(self):
         user = self.view_frame.username_entry.get()
@@ -20,3 +21,10 @@ class SignUpController():
             self.view_frame.sign_up_successful()
             self.app.view_frames["signin"].on_sign_up_success()
             self.app.show_view("signin")
+
+    def on_back_to_sign_in(self):
+        if self.view_frame.warning_label != None:
+            self.view_frame.warning_label.destroy()
+            self.view_frame.warning_label = None
+        self.view_frame.clear_entry_fields()
+        self.app.show_view("signin")
