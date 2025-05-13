@@ -14,7 +14,7 @@ class SignInController():
     def login_check(self):
         user = self.view_frame.user_entry.get()
         password = self.view_frame.password_entry.get()
-
+        
         if not self.model.username_exist(user):
             self.view_frame.user_does_not_exist_error()
         elif not self.model.user_exist(user, password):

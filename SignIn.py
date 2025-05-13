@@ -1,29 +1,29 @@
-import tkinter as tk
+import ttkbootstrap as ttk
 
-class SignInView(tk.Frame):
+class SignInView(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.place(x=0, y=0, relheight=1.0, relwidth=1.0)
         self.columnconfigure((0,1), weight=1)
         self.rowconfigure((0,1,2,3), weight=1)
 
-        self.user_label = tk.Label(self, text="User")
+        self.user_label = ttk.Label(self, text="User")
         self.user_label.grid(column=0, row=0, pady=5, padx=5)
-        self.password_label = tk.Label(self, text="Password")
+        self.password_label = ttk.Label(self, text="Password")
         self.password_label.grid(column=0, row=1, pady=5, padx=5)
 
-        self.user_entry = tk.Entry(self)
+        self.user_entry = ttk.Entry(self)
         self.user_entry.grid(column=1, row=0, pady=5, padx=5)
-        self.password_entry = tk.Entry(self, show="*")
+        self.password_entry = ttk.Entry(self, show="*")
         self.password_entry.grid(column=1, row=1, pady=5, padx=5)
 
-        self.sign_in_button = tk.Button(self, text="Sign In")
+        self.sign_in_button = ttk.Button(self, text="Sign In")
         self.sign_in_button.grid(column=1, row=3, pady=5, padx=5,sticky="w")
         
-        self.no_account_text = tk.Label(self, text="Don't have an account?")
+        self.no_account_text = ttk.Label(self, text="Don't have an account?")
         self.no_account_text.grid(column=0, row=2, sticky="w")
 
-        self.link_label = tk.Label(self, text="Sign up", fg="blue", cursor="hand2")
+        self.link_label = ttk.Label(self, text="Sign up", foreground="blue", cursor="hand2")
         self.link_label.grid(column=1, row=2, sticky="e")
 
         self.warning_label = None
@@ -41,17 +41,17 @@ class SignInView(tk.Frame):
 
     def on_sign_up_success(self):
         self.display_warning("Sign up successful!")
-        self.password_entry.delete(0, tk.END)
-        self.user_entry.delete(0, tk.END)
+        self.password_entry.delete(0, ttk.END)
+        self.user_entry.delete(0, ttk.END)
 
     def display_warning(self, warning_text):
         if self.warning_label == None:
             self.push_widgets_down()
-            self.warning_label = tk.Label(self,text=warning_text)
+            self.warning_label = ttk.Label(self,text=warning_text)
             self.warning_label.grid(column=1, row=0, pady=10, padx=10)
         else:
             self.warning_label.config(text=warning_text)
 
     def clear_entry_fields(self):
-        self.user_entry.delete(0, tk.END)
-        self.password_entry.delete(0, tk.END)
+        self.user_entry.delete(0, ttk.END)
+        self.password_entry.delete(0, ttk.END)

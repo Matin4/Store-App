@@ -41,7 +41,7 @@ class HomeController:
             messagebox.showwarning("Invalid Phone", "Phone number is not correct!")
             return
 
-        birthdate = self.view.birth_date_entry.get()
+        birthdate = self.view.birth_date_entry.entry.get()
         if birthdate and not self.validate.validate_date(birthdate):
             messagebox.showwarning("Invalid Birth Date", "Birth date is not correct!")
             return
