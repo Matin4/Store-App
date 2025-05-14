@@ -17,8 +17,8 @@ class HomeController:
 
     def add_contact(self):
         # Required fields
-        name = self.view.name_entry.get()
-        role = self.view.role_entry.get()
+        name = self.view.person_window.name_entry.get()
+        role = self.view.person_window.role_entry.get()
 
         if not name or not role:
             messagebox.showwarning("Missing Name", "Name and role are required to add a person.")
@@ -33,22 +33,22 @@ class HomeController:
             return
 
         # Optional fields with validation if present
-        lname = self.view.lname_entry.get()
+        lname = self.view.person_window.lname_entry.get()
         if lname and not self.validate.validate_string(lname):
             messagebox.showwarning("Invalid Last Name", "Last name is not correct!")
             return
 
-        phone = self.view.phone_entry.get()
+        phone = self.view.person_window.phone_entry.get()
         if phone and not self.validate.validate_phone(phone):
             messagebox.showwarning("Invalid Phone", "Phone number is not correct!")
             return
 
-        birthdate = self.view.birth_date_entry.entry.get()
+        birthdate = self.view.person_window.birth_date_entry.entry.get()
         if birthdate and not self.validate.validate_date(birthdate):
             messagebox.showwarning("Invalid Birth Date", "Birth date is not correct!")
             return
 
-        salary = self.view.salary_entry.get()
+        salary = self.view.person_window.salary_entry.get()
         if salary and not self.validate.validate_integer(salary):
             messagebox.showwarning("Invalid Salary", "Salary is not correct!")
             return
