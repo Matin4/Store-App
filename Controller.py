@@ -1,11 +1,11 @@
 from View import View
 from Model import Model
-from SignInController import SignInController
-from SignUpController import SignUpController
-from HomeController import HomeController
-from HomeView import HomeView
-from SignIn import SignInView
-from SignUp import SignUpView
+from Controllers.SignInController import SignInController
+from Controllers.SignUpController import SignUpController
+from Controllers.HomeController import HomeController
+from Views.HomeView import HomeView
+from Views.SignIn import SignInView
+from Views.SignUp import SignUpView
 import tkinter as tk
 
 class Controller():
@@ -13,8 +13,7 @@ class Controller():
         self.model = model
         self.root_view = view
         self.container = tk.Frame(self.root_view.root)
-        self.container.pack()   
-
+        self.container.pack(anchor="center")
         self.view_frames = {}
         self.controllers = {}
         self.show_view("signin")
