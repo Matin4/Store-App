@@ -10,7 +10,7 @@ class View():
         self.root = ttk.Window(themename="superhero")
         self.root.geometry("1200x600")
         self.root.title("Store App")
-
+        
     def start_mainloop(self):
         self.root.mainloop()
 

@@ -1,9 +1,7 @@
 import tkinter as tk
 from ttkbootstrap.constants import *
 import ttkbootstrap as ttk
-from Views.AddProductWindow import ProductWindow
-from Views.AddPersonWindow import PersonWindow
-
+from Views.NewWindow import NewWindow
 
 class HomeView(ttk.Frame):
     def __init__(self, parent):
@@ -11,8 +9,9 @@ class HomeView(ttk.Frame):
         self.controller = None
         self.columnconfigure((0,1), weight=1)
         self.rowconfigure((0,1,2), weight=1)
-
-        self.main_window = ttk.Notebook(self, width=1100, height=500)
+        height = self.winfo_toplevel().winfo_height()
+        width = self.winfo_toplevel().winfo_width()
+        self.main_window = ttk.Notebook(self, width=int(width*0.95), height=int(height*0.9))
         self.main_window.pack(anchor="center")
         # Home Tab
         self.tab1 = ttk.Frame(self.main_window)
@@ -46,29 +45,17 @@ class HomeView(ttk.Frame):
         self.update_product_button = ttk.Button(self.tab3, text="Update")
         self.update_product_button.pack(side="left", padx=10, pady=20)
 
-    def new_window_add_product(self, controller):
-        if hasattr(self, 'product_window'):
-            self.product_window.top_window_product.lift()
+    def new_window(self, controller, window_name):
+        if hasattr(self, 'window'):
+            self.window.top_window.lift()
             return
         
-        self.product_window = ProductWindow(controller, self)
+        self.window = NewWindow(controller, self, window_name)
 
-    def close_top_window_product(self):
-        if hasattr(self, 'product_window') and self.product_window.top_window_product.winfo_exists():
-            self.product_window.top_window_product.destroy()
-            del self.product_window  # Remove the reference
-
-    def new_window_add_person(self, controller):
-        if hasattr(self, 'person_window'):
-            self.person_window.top_window_person.lift()
-            return
-        
-        self.person_window = PersonWindow(controller, self)
-
-    def close_top_window_person(self):
-        if hasattr(self, 'person_window') and self.person_window.top_window_person.winfo_exists():
-            self.person_window.top_window_person.destroy()
-            del self.person_window  # Remove the reference
+    def close_top_window(self):
+        if hasattr(self, 'window') and self.window.top_window.winfo_exists():
+            self.window.top_window.destroy()
+            del self.window  # Remove the reference
 
     def clear_list_box_person(self):
         self.personnel_listbox.delete(0, ttk.END) 

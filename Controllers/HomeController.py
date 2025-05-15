@@ -10,15 +10,15 @@ class HomeController:
         self.bind()
 
     def bind(self):
-        self.view.add_people_button.config(command=lambda: self.view.new_window_add_person(self))
-        self.view.add_product_button.config(command=lambda: self.view.new_window_add_product(self))
+        self.view.add_people_button.config(command=lambda: self.view.new_window(self, "Add Person"))
+        self.view.add_product_button.config(command=lambda: self.view.new_window(self, "Add Product"))
         self.view.update_people_button.config(command=lambda: self.update_person())
         self.view.update_product_button.config(command=lambda: self.update_product())
 
     def add_contact(self):
         # Required fields
-        name = self.view.person_window.name_entry.get()
-        role = self.view.person_window.role_entry.get()
+        name = self.view.window.name_entry.get()
+        role = self.view.window.role_entry.get()
 
         if not name or not role:
             messagebox.showwarning("Missing Name", "Name and role are required to add a person.")
@@ -33,22 +33,22 @@ class HomeController:
             return
 
         # Optional fields with validation if present
-        lname = self.view.person_window.lname_entry.get()
+        lname = self.view.window.lname_entry.get()
         if lname and not self.validate.validate_string(lname):
             messagebox.showwarning("Invalid Last Name", "Last name is not correct!")
             return
 
-        phone = self.view.person_window.phone_entry.get()
+        phone = self.view.window.phone_entry.get()
         if phone and not self.validate.validate_phone(phone):
             messagebox.showwarning("Invalid Phone", "Phone number is not correct!")
             return
 
-        birthdate = self.view.person_window.birth_date_entry.entry.get()
+        birthdate = self.view.window.birth_date_entry.entry.get()
         if birthdate and not self.validate.validate_date(birthdate):
             messagebox.showwarning("Invalid Birth Date", "Birth date is not correct!")
             return
 
-        salary = self.view.person_window.salary_entry.get()
+        salary = self.view.window.salary_entry.get()
         if salary and not self.validate.validate_integer(salary):
             messagebox.showwarning("Invalid Salary", "Salary is not correct!")
             return
@@ -60,38 +60,38 @@ class HomeController:
             (name, lname, phone, birthdate, role, salary)
         )
 
-        self.view.close_top_window_person()
+        self.view.close_top_window()
         self.refresh_listbox_person()
 
     def add_product(self):
         # Required fields
-        name = self.view.product_window.pname_entry.get()
+        name = self.view.window.pname_entry.get()
         if not self.validate.validate_string(name) or not name:
             messagebox.showwarning("Missing Name", "Name is not correct!")
             return
 
         # Optional fields with validation if present
-        code = self.view.product_window.pcode_entry.get()
+        code = self.view.window.pcode_entry.get()
         if code and not self.validate.validate_integer(code):
             messagebox.showwarning("Invalide Code", "Code is not correct!")
             return
         
-        buy_price = self.view.product_window.buy_price_entry.get()
+        buy_price = self.view.window.buy_price_entry.get()
         if buy_price and not self.validate.validate_float(buy_price):
             messagebox.showwarning("Invalid Buy", "Buy price is not correct!")
             return
         
-        commercial_price = self.view.product_window.commercial_price_entry.get()
+        commercial_price = self.view.window.commercial_price_entry.get()
         if commercial_price and not self.validate.validate_float(commercial_price):
             messagebox.showwarning("Invalid Commercial price", "Commercial price is not correct!")
             return
 
-        barcode = self.view.product_window.barcode_entry.get()
+        barcode = self.view.window.barcode_entry.get()
         if barcode and not self.validate.validate_integer(barcode):
             messagebox.showwarning("Invalid Barcode", "Barcode is not correct!")
             return
 
-        quantity = self.view.product_window.quantity_entry.get()
+        quantity = self.view.window.quantity_entry.get()
         if quantity and not self.validate.validate_integer(quantity):
             messagebox.showwarning("Invalid quantity", "Quantity is not correct!")
             return
@@ -103,13 +103,17 @@ class HomeController:
             (name, code, buy_price, commercial_price, barcode, quantity)
         )
 
-        self.view.close_top_window_product()
+        self.view.close_top_window()
         self.refresh_listbox_product()
 
     def update_person(self):
         selected_item = self.view.personnel_listbox.curselection()
         if selected_item:
-            pass
+            self.view.new_window(self, "Update person")
+            value = self.view.personnel_listbox.get(selected_item[0])
+            print(f"Selected item: {value}")
+        else:
+            messagebox.showwarning("No Selection", "Please select an item to update.")
 
     def update_product(self):
         pass

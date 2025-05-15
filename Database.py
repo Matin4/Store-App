@@ -60,7 +60,6 @@ class DatabaseManager(DatabaseOperationInterface):
     def user_exists(self, table, user, password):
         query = f"SELECT EXISTS(SELECT 1 FROM {table} WHERE username = ? AND password = ?)"
         cursor = self.cursor.execute(query, (user, password))
-        # print("EXXXists ", exists.fetchone()[0])
         row = cursor.fetchone()
         return row[0]
     
