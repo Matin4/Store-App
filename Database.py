@@ -41,22 +41,17 @@ class DatabaseManager(DatabaseOperationInterface):
         self.cursor.execute(query)
         self.conn.commit()
 
-    def insert_data(self, table_name: str, columns: str, values: tuple):
-        placeholders = ', '.join(['?'] * len(values))
-        query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
-        self.cursor.execute(query, values)
-        self.conn.commit()
-
-    def update_record(self, table_name: str, set_column: str, condition: str, values: tuple):
-        query = f"UPDATE {table_name} SET {set_column} = ? WHERE {condition} = ?"
-        self.cursor.execute(query, values)
-        self.conn.commit()
-        
     def delete_table(self, table_name: str):
         query = f"DROP TABLE IF EXISTS {table_name}"
         self.cursor.execute(query)
         self.conn.commit()
 
+    def insert_data(self, table_name: str, columns: str, values: tuple):
+        placeholders = ', '.join(['?'] * len(values))
+        query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
+        self.cursor.execute(query, values)
+        self.conn.commit()
+        
     def user_exists(self, table, user, password):
         query = f"SELECT EXISTS(SELECT 1 FROM {table} WHERE username = ? AND password = ?)"
         cursor = self.cursor.execute(query, (user, password))
@@ -69,6 +64,11 @@ class DatabaseManager(DatabaseOperationInterface):
         row = cursor.fetchone()
         return row[0]
     
+    def update_record(self, table_name: str, set_column: str, condition: str, values: tuple):
+        query = f"UPDATE {table_name} SET {set_column} = ? WHERE {condition} = ?"
+        self.cursor.execute(query, values)
+        self.conn.commit()
+
     def delete_record(self, table_name: str, columns: str, values: tuple):
         self.cursor.execute(f'''
         DELETE FROM {table_name}
@@ -76,6 +76,15 @@ class DatabaseManager(DatabaseOperationInterface):
         ''', values)
 
         self.conn.commit()
+
+    def record_exists(self, conn, table, columns, values):
+        # Create WHERE clause dynamically
+        where_clause = " AND ".join([f"{col} = ?" for col in columns])
+        
+        query = f"SELECT 1 FROM {table} WHERE {where_clause} LIMIT 1"
+        self.cursor.execute(query, values)
+        
+        return self.cursor.fetchone() is not None
 
     def fetch_data(self, table_name):
         self.cursor.execute(f"SELECT * FROM {table_name}")

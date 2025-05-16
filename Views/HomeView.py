@@ -14,7 +14,7 @@ class HomeView(ttk.Frame):
         self.main_window = ttk.Notebook(self, width=int(width*0.95), height=int(height*0.9))
         self.main_window.pack(anchor="center")
         self.winfo_toplevel().bind("<Configure>", self.on_resize_root_adjust_notebook)
-        
+
         # Home Tab
         self.tab1 = ttk.Frame(self.main_window)
         self.main_window.add(self.tab1, text="Home")
@@ -27,8 +27,15 @@ class HomeView(ttk.Frame):
 
         self.list_label = ttk.Label(self.tab2, text="Personnel and Customers")
         self.list_label.pack(pady=5)
-        self.personnel_listbox = tk.Listbox(self.tab2, width=100)
-        self.personnel_listbox.pack(fill="both", pady=5, padx=10)
+        self.personnel_table = ttk.Treeview(self.tab2, columns=("First Name", "Last Name", "Phone", "Birthdate", "Role", "Salary"), show="headings")
+        self.personnel_table.pack(fill="both", pady=5, padx=10)
+        self.personnel_table.heading("First Name", text="First Name", anchor="w")
+        self.personnel_table.heading("Last Name", text="Last Name", anchor="w")
+        self.personnel_table.heading("Phone", text="Phone", anchor="w")
+        self.personnel_table.heading("Birthdate", text="Birthdate", anchor="w")
+        self.personnel_table.heading("Role", text="Role", anchor="w")
+        self.personnel_table.heading("Salary", text="Salary", anchor="w")
+        self.personnel_table.bind("<<TreeviewSelect>>", self.item_select)
         self.add_people_button = ttk.Button(self.tab2, text="Add")
         self.add_people_button.pack(side="left", padx=10, pady=20)
         self.update_people_button = ttk.Button(self.tab2, text="Update")
@@ -40,12 +47,24 @@ class HomeView(ttk.Frame):
 
         self.list_label_product = ttk.Label(self.tab3, text="Products")
         self.list_label_product.pack(pady=5)
-        self.product_listbox = tk.Listbox(self.tab3, width=100)
-        self.product_listbox.pack(fill="both", pady=5, padx=10)
+        # self.product_listbox = tk.Listbox(self.tab3, width=100)
+        # self.product_listbox.pack(fill="both", pady=5, padx=10)
+        self.product_table = ttk.Treeview(self.tab3, columns=("Product Name", "Code", "Buy Price", "Commercial Price", "Barcode", "Quantity"), show="headings")
+        self.product_table.pack(fill="both", pady=5, padx=10)
+        self.product_table.heading("Product Name", text="Product Name", anchor="w")
+        self.product_table.heading("Code", text="Code", anchor="w")
+        self.product_table.heading("Buy Price", text="Buy Price", anchor="w")
+        self.product_table.heading("Commercial Price", text="Commercial Price", anchor="w")
+        self.product_table.heading("Barcode", text="Barcode", anchor="w")
+        self.product_table.heading("Quantity", text="Quantity", anchor="w")
         self.add_product_button = ttk.Button(self.tab3, text="Add")
         self.add_product_button.pack(side="left", padx=10, pady=20)
         self.update_product_button = ttk.Button(self.tab3, text="Update")
         self.update_product_button.pack(side="left", padx=10, pady=20)
+
+    def item_select(self, event):
+        for i in self.personnel_table.selection():
+            print(self.personnel_table.item(i)['values'])
 
     def on_resize_root_adjust_notebook(self, event):
         height = self.winfo_toplevel().winfo_height()
@@ -65,15 +84,19 @@ class HomeView(ttk.Frame):
             del self.window  # Remove the reference
 
     def clear_list_box_person(self):
-        self.personnel_listbox.delete(0, ttk.END) 
+        for item in self.personnel_table.get_children():
+            self.personnel_table.delete(item) 
 
     def update_list_box_person(self, data):
-        self.personnel_listbox.insert(ttk.END, f"{data[0]}: {' | '.join(str(item) for item in data[1:])}")
+        data_to_insert = data[1:]
+        self.personnel_table.insert(parent="", index=tk.END, values=data_to_insert)  
 
     def clear_list_box_product(self):
-        self.product_listbox.delete(0, ttk.END) 
+        for item in self.product_table.get_children():
+            self.product_table.delete(item) 
 
     def update_list_box_product(self, data):
-        self.product_listbox.insert(ttk.END, f"{data[0]}: {' | '.join(str(item) for item in data[1:])}")
+        data_to_insert = data[1:]
+        self.product_table.insert(parent="", index=tk.END, values=data_to_insert) 
 
     
