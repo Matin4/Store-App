@@ -13,6 +13,8 @@ class HomeView(ttk.Frame):
         width = self.winfo_toplevel().winfo_width()
         self.main_window = ttk.Notebook(self, width=int(width*0.95), height=int(height*0.9))
         self.main_window.pack(anchor="center")
+        self.winfo_toplevel().bind("<Configure>", self.on_resize_root_adjust_notebook)
+        
         # Home Tab
         self.tab1 = ttk.Frame(self.main_window)
         self.main_window.add(self.tab1, text="Home")
@@ -44,6 +46,11 @@ class HomeView(ttk.Frame):
         self.add_product_button.pack(side="left", padx=10, pady=20)
         self.update_product_button = ttk.Button(self.tab3, text="Update")
         self.update_product_button.pack(side="left", padx=10, pady=20)
+
+    def on_resize_root_adjust_notebook(self, event):
+        height = self.winfo_toplevel().winfo_height()
+        width = self.winfo_toplevel().winfo_width()
+        self.main_window.config(width=int(width*0.95), height=int(height*0.9))
 
     def new_window(self, controller, window_name):
         if hasattr(self, 'window'):
