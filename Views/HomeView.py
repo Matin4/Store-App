@@ -27,7 +27,8 @@ class HomeView(ttk.Frame):
 
         self.list_label = ttk.Label(self.tab2, text="Personnel and Customers")
         self.list_label.pack(pady=5)
-        self.personnel_table = ttk.Treeview(self.tab2, columns=("First Name", "Last Name", "Phone", "Birthdate", "Role", "Salary"), show="headings")
+        self.personnel_table = ttk.Treeview(self.tab2, columns=("First Name", "Last Name", "Phone", "Birthdate", "Role", "Salary"), 
+                                            show="headings", selectmode="browse")
         self.personnel_table.pack(fill="both", pady=5, padx=10)
         self.personnel_table.heading("First Name", text="First Name", anchor="w")
         self.personnel_table.heading("Last Name", text="Last Name", anchor="w")
@@ -35,7 +36,7 @@ class HomeView(ttk.Frame):
         self.personnel_table.heading("Birthdate", text="Birthdate", anchor="w")
         self.personnel_table.heading("Role", text="Role", anchor="w")
         self.personnel_table.heading("Salary", text="Salary", anchor="w")
-        self.personnel_table.bind("<<TreeviewSelect>>", self.item_select)
+
         self.add_people_button = ttk.Button(self.tab2, text="Add")
         self.add_people_button.pack(side="left", padx=10, pady=20)
         self.update_people_button = ttk.Button(self.tab2, text="Update")
@@ -47,9 +48,8 @@ class HomeView(ttk.Frame):
 
         self.list_label_product = ttk.Label(self.tab3, text="Products")
         self.list_label_product.pack(pady=5)
-        # self.product_listbox = tk.Listbox(self.tab3, width=100)
-        # self.product_listbox.pack(fill="both", pady=5, padx=10)
-        self.product_table = ttk.Treeview(self.tab3, columns=("Product Name", "Code", "Buy Price", "Commercial Price", "Barcode", "Quantity"), show="headings")
+        self.product_table = ttk.Treeview(self.tab3, columns=("Product Name", "Code", "Buy Price", "Commercial Price", "Barcode", "Quantity"), 
+                                          show="headings", selectmode="browse")
         self.product_table.pack(fill="both", pady=5, padx=10)
         self.product_table.heading("Product Name", text="Product Name", anchor="w")
         self.product_table.heading("Code", text="Code", anchor="w")
@@ -61,10 +61,6 @@ class HomeView(ttk.Frame):
         self.add_product_button.pack(side="left", padx=10, pady=20)
         self.update_product_button = ttk.Button(self.tab3, text="Update")
         self.update_product_button.pack(side="left", padx=10, pady=20)
-
-    def item_select(self, event):
-        for i in self.personnel_table.selection():
-            print(self.personnel_table.item(i)['values'])
 
     def on_resize_root_adjust_notebook(self, event):
         height = self.winfo_toplevel().winfo_height()

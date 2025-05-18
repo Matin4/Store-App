@@ -2,7 +2,7 @@ from Database import DatabaseManager
 
 class Model:
     def __init__(self):
-        self.db = DatabaseManager(":memory:")
+        self.db = DatabaseManager("example.db")
         self.db.create_table("users", """id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT NOT NULL,
                 password TEXT NOT NULL

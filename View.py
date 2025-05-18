@@ -14,6 +14,3 @@ class View():
     def start_mainloop(self):
         self.root.mainloop()
 
-# v = View()
-# v.switch_frame("home")
-# v.start_mainloop()

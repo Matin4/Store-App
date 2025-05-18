@@ -38,7 +38,7 @@ class Validate():
                 return True
             if isinstance(text_to_validate, str):
                 try:
-                    return True # datetime.strptime(text_to_validate, date_format)
+                    return True
                 except ValueError:
                     raise ValueError(f"String '{text_to_validate}' is not a valid date (format: {date_format})")
             raise ValueError(f"Cannot convert {text_to_validate} to date")
