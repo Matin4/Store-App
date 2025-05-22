@@ -1,6 +1,8 @@
 from tkinter import messagebox
 from validate import Validate
-import datetime
+from Views.NewWindow import NewWindow
+from ttkbootstrap.constants import *
+import ttkbootstrap as ttk
 
 class HomeController:
     def __init__(self, model, view, app):
@@ -11,12 +13,16 @@ class HomeController:
         self.refresh_listbox_person()
         self.refresh_listbox_product()
         self.bind()
+        self.view.signed_in_user_label.config(text=self.model.signed_in_user)
+        self.view.signed_in_user_label.config(font=("Helvetica", 9, "bold"))
 
     def bind(self):
+        self.view.signout_btn.config(command=self.signout)
         self.view.add_people_button.config(command=lambda: self.view.new_window(self, "Add Person"))
         self.view.add_product_button.config(command=lambda: self.view.new_window(self, "Add Product"))
         self.view.update_people_button.config(command=lambda: self.update_person())
         self.view.update_product_button.config(command=lambda: self.update_product())
+        self.view.file_menu.add_command(label="Users", command=lambda: self.show_users())
 
     def add_contact(self):
         # Required fields
@@ -237,3 +243,55 @@ class HomeController:
         self.model.db.update_record("Product", set_columns, self.product_id, values)
         self.view.close_top_window()
         self.refresh_listbox_product()
+
+    def signout(self):
+        self.model.signed_in_user = None
+        self.view.menu.destroy()
+        self.view.winfo_toplevel().unbind("<Configure>")
+        self.app.view_frames["home"].destroy()
+        self.app.view_frames.pop("home")
+        self.app.show_view("signin")
+        
+    def show_users(self):
+        self.window = NewWindow(self, self.view, "roles")
+        self.user_role_buttons = {}  # Dictionary to store menubuttons per user
+
+        users = self.model.db.fetch_data("users")
+        for i, user in enumerate(users):
+            if user[1] != "admin":
+                username = user[1]
+                label = ttk.Label(self.window.roles_labels_frame, text=username)
+                label.grid(row=i, column=0, padx=50, pady=10, sticky="nsew")
+
+                role = self.model.db.get_user_role("users", username)
+                menu_selection = ttk.Menubutton(self.window.roles_labels_frame, text=role, direction="below")
+                menu_selection.grid(row=i, column=1, padx=50, pady=10, sticky="nsew")
+
+                if self.model.signed_in_user != "admin":
+                    menu_selection.configure(state="disabled")
+        
+                menu = ttk.Menu(menu_selection, tearoff=0)
+                menu_selection.config(menu=menu)
+
+                for opt in self.model.roles:
+                    menu.add_command(
+                        label=opt,
+                        command=lambda o=opt, b=menu_selection: b.config(text=o)
+                    )
+
+                self.user_role_buttons[username] = menu_selection
+
+        self.window.submit_btn.pack(anchor="s", expand=True, pady=10)
+        self.window.submit_btn.config(command=self.update_roles)
+
+    def update_roles(self):
+        for username, menubutton in self.user_role_buttons.items():
+            selected_role = menubutton.cget("text")
+            self.model.db.set_user_role("users", username, selected_role)
+        self.close_top_window()
+
+    def close_top_window(self):
+        if hasattr(self, 'window') and self.window.top_window.winfo_exists():
+            self.window.top_window.destroy()
+            del self.window
+        

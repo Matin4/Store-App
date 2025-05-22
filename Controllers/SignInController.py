@@ -20,10 +20,13 @@ class SignInController():
         elif not self.model.user_exist(user, password):
             self.view_frame.sign_in_unsuccessful_error()
         else:
+            self.model.signed_in_user = user
+            self.view_frame.clear_entry_fields()
             self.app.show_view("home")
 
     def on_sign_up(self):
         if self.view_frame.warning_label.cget("text") != "":
-            self.view_frame.warning_label.cget("text") == ""
+            self.view_frame.warning_label.config(text="")
+           # self.view_frame.warning_label.cget("text") == ""
         self.view_frame.clear_entry_fields()
         self.app.show_view("signup")

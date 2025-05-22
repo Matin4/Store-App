@@ -17,7 +17,7 @@ class SignUpController():
         elif self.model.db.username_exist("users", user):
             self.view_frame.username_exist_error()
         else:
-            self.model.db.insert_data("users", "username, password", (user, password))
+            self.model.db.insert_data("users", "username, password, role", (user, password, "salesperson"))
             self.view_frame.clear_entry_fields()
             self.app.view_frames["signin"].on_sign_up_success()
             self.app.show_view("signin")

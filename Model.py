@@ -5,7 +5,8 @@ class Model:
         self.db = DatabaseManager("example.db")
         self.db.create_table("users", """id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT NOT NULL,
-                password TEXT NOT NULL
+                password TEXT NOT NULL,
+                role TEXT NOT NULL
                 """)
         self.db.create_table("People", """id INTEGER PRIMARY KEY AUTOINCREMENT,
                 first_name TEXT NOT NULL,
@@ -24,10 +25,17 @@ class Model:
                 quantity INTEGER
                 """)
         
-        self.db.insert_data("users", "username, password", ("admin", "admin"))
+        self.roles = ["admin", "manager", "salesperson"]
+
+        if not self.user_exist("admin", "admin"):
+            self.db.insert_data("users", "username, password, role", ("admin", "admin", "admin"))
+
+        self.signed_in_user = None
+        self.user_permissions = None
 
     def user_exist(self, user, password):
         return self.db.user_exists("users", user=user, password=password)
     
     def username_exist(self, user):
         return self.db.username_exist("users", username=user)
+    

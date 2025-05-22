@@ -7,10 +7,26 @@ class HomeView(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.controller = None
-        self.columnconfigure((0,1), weight=1)
-        self.rowconfigure((0,1,2), weight=1)
         height = self.winfo_toplevel().winfo_height()
         width = self.winfo_toplevel().winfo_width()
+
+        self.menu = ttk.Menu(self.winfo_toplevel())
+        self.winfo_toplevel().configure(menu=self.menu)
+        self.file_menu = ttk.Menu(self.menu, tearoff=False)
+        self.menu.add_cascade(label="Settings", menu=self.file_menu)
+
+        self.top_row_frame = ttk.Frame(self)
+        self.top_row_frame.pack(fill="x")
+
+        self.spacer = ttk.Label(self.top_row_frame)
+        self.spacer.pack(side='left', expand=True)
+
+        self.signout_btn = ttk.Button(self.top_row_frame, text="Sign Out", width=8)
+        self.signout_btn.pack(side="right", padx=5)
+
+        self.signed_in_user_label = ttk.Label(self.top_row_frame)
+        self.signed_in_user_label.pack(side="right", padx=5)
+
         self.main_window = ttk.Notebook(self, width=int(width*0.95), height=int(height*0.9))
         self.main_window.pack(anchor="center")
         self.winfo_toplevel().bind("<Configure>", self.on_resize_root_adjust_notebook)
@@ -65,7 +81,7 @@ class HomeView(ttk.Frame):
     def on_resize_root_adjust_notebook(self, event):
         height = self.winfo_toplevel().winfo_height()
         width = self.winfo_toplevel().winfo_width()
-        self.main_window.config(width=int(width*0.95), height=int(height*0.9))
+        self.main_window.config(width=int(width*0.95), height=int(height*0.85))
 
     def new_window(self, controller, window_name):
         if hasattr(self, 'window'):
@@ -94,5 +110,3 @@ class HomeView(ttk.Frame):
     def update_list_box_product(self, data):
         data_to_insert = data[1:]
         self.product_table.insert(parent="", index=tk.END, values=data_to_insert) 
-
-    

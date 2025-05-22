@@ -3,10 +3,7 @@ import ttkbootstrap as ttk
 class SignInView(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
-        self.place(x=0, y=0, relheight=1.0, relwidth=1.0)
-        self.columnconfigure((0,1), weight=1)
-        self.rowconfigure((0,1,2,3), weight=1)
-
+        
         self.warning_label = ttk.Label(self)
         self.warning_label.grid(columnspan=2, column=0, row=0, pady=10, padx=10)
         self.user_label = ttk.Label(self, text="User")
@@ -27,7 +24,7 @@ class SignInView(ttk.Frame):
 
         self.sign_in_button = ttk.Button(self, text="Sign In")
         self.sign_in_button.grid(column=1, row=4, pady=5, padx=5,sticky="w")
-        
+
     def user_does_not_exist_error(self):
         self.display_warning("User does not exist!")
 

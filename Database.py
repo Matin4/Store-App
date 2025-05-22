@@ -78,6 +78,16 @@ class DatabaseManager(DatabaseOperationInterface):
         self.cursor.execute(query, values)
         return self.cursor.fetchone()
 
+    def get_user_role(self, table, username):
+        query = f"SELECT role FROM {table} WHERE username = ?"
+        cursor = self.cursor.execute(query, (username,))
+        row = cursor.fetchone()
+        return row[0] if row else None
+
+    def set_user_role(self, table, username, role):
+        query = f"UPDATE {table} SET role = ? WHERE username = ?"
+        self.cursor.execute(query, (role, username))
+        self.conn.commit()
 
     def delete_record(self, table_name: str, columns: str, values: tuple):
         self.cursor.execute(f'''
