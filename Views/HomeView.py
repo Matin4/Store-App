@@ -34,7 +34,7 @@ class HomeView(ttk.Frame):
         # Home Tab
         self.tab1 = ttk.Frame(self.main_window)
         self.main_window.add(self.tab1, text="Home")
-        self.label1 = ttk.Label(self.tab1, text="Welcome to the GUI App!")
+        self.label1 = ttk.Label(self.tab1, text="Welcome to the Store App!")
         self.label1.pack(pady=10, padx=10)
 
         # Add Person Tab

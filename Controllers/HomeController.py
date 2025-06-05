@@ -273,7 +273,7 @@ class HomeController:
                 menu = ttk.Menu(menu_selection, tearoff=0)
                 menu_selection.config(menu=menu)
 
-                for opt in self.model.roles:
+                for opt in (role for role in self.model.roles if role != "admin"):
                     menu.add_command(
                         label=opt,
                         command=lambda o=opt, b=menu_selection: b.config(text=o)
